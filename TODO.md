@@ -2,7 +2,7 @@
 
 - [x] Implement UserProfile
 - [x] Add api requests doc file
-- [ ] Add swagger
+- [x] Add swagger
 - [ ] Add metrics
 - [ ] Add Dockerfile
 - [ ] Add github action workflow
