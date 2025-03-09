@@ -1,8 +1,14 @@
+CMD_DIR := ./cmd
+
 get:
-	go get ./cmd/
+	go get $(CMD_DIR)
 run:
-	go run ./cmd/main.go
+	make swag-init && go run $(CMD_DIR)/main.go
 build:
-	make clean && go build -C cmd -o ../bin/go-redis-sample
+	make swag-init && make clean && go build -C $(CMD_DIR) -o ../bin/go-redis-sample
+start:
+	make build && cp .env ./bin/.env && ./bin/go-redis-sample
 clean:
-	rm -rf bin/
+	rm -rf ./bin/
+swag-init:
+	go install github.com/swaggo/swag/cmd/swag@latest && swag init -g $(CMD_DIR)/main.go -o docs

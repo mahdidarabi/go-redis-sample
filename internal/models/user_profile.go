@@ -19,12 +19,12 @@ type UserProfile struct {
 	Zip     string `json:"zip"`
 }
 
-type UserProfileModel struct {
+type UserProfileDAO struct {
 	redisClient         *redis.Client
 	cacheExpirationTime time.Duration
 }
 
-var userProfileModel = &UserProfileModel{
+var userProfileDAO = &UserProfileDAO{
 	redisClient:         nil,
 	cacheExpirationTime: 0,
 }
@@ -33,43 +33,24 @@ var ctx = context.Background()
 
 //#region Setters
 
-func SetRedisClient(redisClient *redis.Client) *UserProfileModel {
-	userProfileModel.redisClient = redisClient
-	return userProfileModel
+func SetRedisClient(redisClient *redis.Client) *UserProfileDAO {
+	userProfileDAO.redisClient = redisClient
+	return userProfileDAO
 }
 
-func SetCacheExpirationTime(cacheExpirationTime time.Duration) *UserProfileModel {
-	userProfileModel.cacheExpirationTime = cacheExpirationTime
-	return userProfileModel
+func SetCacheExpirationTime(cacheExpirationTime time.Duration) *UserProfileDAO {
+	userProfileDAO.cacheExpirationTime = cacheExpirationTime
+	return userProfileDAO
 }
 
 //#endregion
 
 //#region User Profile logics
 
-func SetUserProfile(id string, userProfile UserProfile) error {
-	// if userProfile.Id == "" {
-	// 	return errors.New("user profile ID is required")
-	// }
-
-	userProfileBytes, marshalErr := utils.MarshalJson(userProfile)
-	if marshalErr != nil {
-		log.Println("Error marshalling user profile:", marshalErr)
-		return marshalErr
-	}
-
-	err := userProfileModel.redisClient.Set(ctx, id, userProfileBytes, userProfileModel.cacheExpirationTime).Err()
-	if err != nil {
-		log.Println("Error creating user profile:", err)
-		return err
-	}
-	return nil
-}
-
 func GetUserProfileById(id string) (UserProfile, error) {
 	var userProfile UserProfile
 
-	userProfileBytes, err := userProfileModel.redisClient.Get(ctx, id).Bytes()
+	userProfileBytes, err := userProfileDAO.redisClient.Get(ctx, id).Bytes()
 	if err != nil {
 		log.Println("Error getting user profile:", err)
 		return UserProfile{}, err
@@ -83,16 +64,23 @@ func GetUserProfileById(id string) (UserProfile, error) {
 	return userProfile, nil
 }
 
-// func UpdateUserProfile(id string, userProfile UserProfile) error {
-// 	err := userProfileModel.redisClient.Set(ctx, id, userProfile, userProfileModel.cacheExpirationTime).Err()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+func SetUserProfile(id string, userProfile UserProfile) error {
+	userProfileBytes, marshalErr := utils.MarshalJson(userProfile)
+	if marshalErr != nil {
+		log.Println("Error marshalling user profile:", marshalErr)
+		return marshalErr
+	}
+
+	err := userProfileDAO.redisClient.Set(ctx, id, userProfileBytes, userProfileDAO.cacheExpirationTime).Err()
+	if err != nil {
+		log.Println("Error creating user profile:", err)
+		return err
+	}
+	return nil
+}
 
 func DeleteUserProfile(userProfileId string) error {
-	err := userProfileModel.redisClient.Del(ctx, userProfileId).Err()
+	err := userProfileDAO.redisClient.Del(ctx, userProfileId).Err()
 	if err != nil {
 		return err
 	}

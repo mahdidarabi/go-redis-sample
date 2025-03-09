@@ -2,6 +2,8 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"go-redis-sample/internal/handlers"
 )
@@ -9,11 +11,14 @@ import (
 func SetupRoutes(r *gin.Engine) {
 	r.SetTrustedProxies(nil)
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	userProfileRoutes := r.Group("/user-profile")
 	{
-		userProfileRoutes.POST("/:user-id", handlers.CreateOrUpdateUserProfile)
+
 		userProfileRoutes.GET("/:user-id", handlers.GetUserProfile)
-		userProfileRoutes.PUT("/:user-id", handlers.CreateOrUpdateUserProfile)
+		userProfileRoutes.POST("/:user-id", handlers.CreateUserProfile)
+		userProfileRoutes.PUT("/:user-id", handlers.UpdateUserProfile)
 		userProfileRoutes.DELETE("/:user-id", handlers.DeleteUserProfile)
 	}
 }
