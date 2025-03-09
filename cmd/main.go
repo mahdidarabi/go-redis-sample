@@ -39,9 +39,10 @@ func main() {
 
 	r := gin.Default()
 
-	routes.SetupRoutes(r)
+	// r.Use(middleware.LoggingMiddleware())
+	r.Use(middleware.MetricsMiddleware())
 
-	r.Use(middleware.LoggingMiddleware())
+	routes.SetupRoutes(r)
 
 	serverAddr := fmt.Sprintf(":%s", appConfig.Port)
 	log.Println("Server is running on port " + serverAddr)

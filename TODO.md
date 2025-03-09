@@ -3,7 +3,7 @@
 - [x] Implement UserProfile
 - [x] Add api requests doc file
 - [x] Add swagger
-- [ ] Add metrics
+- [x] Add metrics
 - [ ] Add Dockerfile
 - [ ] Add github action workflow
 - [ ] Add docker-compose
