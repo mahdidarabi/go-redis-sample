@@ -5,6 +5,6 @@
 - [x] Add swagger
 - [x] Add metrics
 - [x] Add Dockerfile
-- [ ] Add github action workflow
-- [ ] Add docker-compose
+- [x] Add github action workflow
+- [x] Add docker-compose
 - [ ] Update README
