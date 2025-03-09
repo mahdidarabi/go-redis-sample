@@ -1,0 +1,37 @@
+### User Profile API
+
+@userId = 12345
+
+### Create User Profile
+POST http://localhost:3000/user-profile/{{userId}}
+Content-Type: application/json
+
+{
+  "name": "Mahdi Darabi",
+  "email": "mahdidarabi18@gmail.com",
+  "phone": "+19121234567",
+  "address": "123 Main St",
+  "city": "Anytown",
+  "state": "CA",
+  "zip": "90210"
+}
+
+### Get User Profile
+GET http://localhost:3000/user-profile/{{userId}}
+
+### Update User Profile
+PUT http://localhost:3000/user-profile/{{userId}}
+Content-Type: application/json
+
+{
+  "name": "Mahdi Darabi",
+  "email": "mahdidarabi18@gmail.com",
+  "phone": "+19121234567",
+  "address": "123 Main St",
+  "city": "Anytown",
+  "state": "CA",
+  "zip": "90210"
+}
+
+### Delete User Profile
+DELETE http://localhost:3000/user-profile/{{userId}}

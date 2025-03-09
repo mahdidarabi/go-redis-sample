@@ -1,7 +1,7 @@
 # To-do
 
-- [ ] Implement UserProfile
-- [ ] Add api requests doc file
+- [x] Implement UserProfile
+- [x] Add api requests doc file
 - [ ] Add swagger
 - [ ] Add metrics
 - [ ] Add Dockerfile
