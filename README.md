@@ -154,5 +154,5 @@ A simple helm chart is implemented in `k8s/charts` directory that contains all n
 You can deploy a sample redis instance using `k8s/releases/redis` directory, by updating the values in that directory and run:
 
 ```bash
-helmfile apply -f `k8s/releases/redis/helmfile.yaml`
+helmfile apply -f k8s/releases/redis/helmfile.yaml
 ```
