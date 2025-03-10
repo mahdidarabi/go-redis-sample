@@ -3,10 +3,10 @@ package handlers
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"go-redis-sample/internal/models"
 	"go-redis-sample/internal/utils"
-
-	"github.com/gin-gonic/gin"
 )
 
 // GetUserProfile godoc
@@ -43,7 +43,6 @@ func GetUserProfile(c *gin.Context) {
 // @Router /user-profile/{user-id} [post]
 func CreateUserProfile(c *gin.Context) {
 	handleCreateOrUpdateUserProfile(c, "CREATE")
-
 }
 
 // UpdateUserProfile godoc
@@ -82,6 +81,30 @@ func DeleteUserProfile(c *gin.Context) {
 func handleCreateOrUpdateUserProfile(c *gin.Context, mode string) {
 	id := c.Param("user-id")
 
+	userProfileExisting, err := models.GetUserProfileById(id)
+	if err != nil && err.Error() != "redis: nil" { // Check if the error is not due to a non-existing profile
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to check if user profile exists"})
+		return
+	}
+
+	responseCode := 0
+
+	if mode == "CREATE" {
+		responseCode = http.StatusCreated
+		if userProfileExisting != (models.UserProfile{}) {
+			responseCode = http.StatusConflict
+			c.JSON(responseCode, gin.H{"error": "User profile already exists"})
+			return
+		}
+	} else if mode == "UPDATE" {
+		responseCode = http.StatusOK
+		if userProfileExisting == (models.UserProfile{}) {
+			responseCode = http.StatusNotFound
+			c.JSON(responseCode, gin.H{"error": "User profile not found"})
+			return
+		}
+	}
+
 	var userProfile models.UserProfile
 	if unmarshalJsonError := utils.ReadBodyAndUnmarshal(c.Request, &userProfile); unmarshalJsonError != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read request body"})
@@ -92,10 +115,5 @@ func handleCreateOrUpdateUserProfile(c *gin.Context, mode string) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to mutate user profile"})
 		return
 	}
-
-	if mode == "CREATE" {
-		c.JSON(http.StatusCreated, userProfile)
-	} else {
-		c.JSON(http.StatusOK, userProfile)
-	}
+	c.JSON(responseCode, userProfile)
 }

@@ -19,6 +19,7 @@ config:
   LOG_LEVEL: "info"
   CACHE_EXPIRATION_TIME: "120"
   REDIS_HOST: "redis-master.go-redis-sample.svc.cluster.local"
+  REDIS_USERNAME: "default"
   REDIS_PORT: "6379"
   REDIS_DB: "0"
 
@@ -42,7 +43,6 @@ serviceMonitor:
 
 networkPolicy:
   enabled: false
-
 # Redis configuration
 # redis:
 #   auth:

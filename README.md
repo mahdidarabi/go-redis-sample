@@ -80,7 +80,14 @@ The API provides CRUD operations for user profiles. You can use the `api.http` f
 1. Start the application and Redis:
 
    ```bash
-   docker-compose up
+   docker compose build
+   docker compose up
+   ```
+
+   or run using `make` command:
+
+   ```bash
+   make docker-compose
    ```
 
 2. The application will be available at `http://localhost:3000`

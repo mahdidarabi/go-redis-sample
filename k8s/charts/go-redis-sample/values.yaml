@@ -1,23 +1,23 @@
 # Redis configuration
 nameOverride: ""
 
-redis:
-  auth:
-    enabled: true
-    password: "your_secure_password"
-  architecture: standalone
-  master:
-    count: 1
-    persistence:
-      enabled: true
-      size: 1Gi
-  replica:
-    replicaCount: 0
-    persistence:
-      enabled: true
-      size: 1Gi
-  # global:
-  #   imageRegistry:
+# redis:
+#   auth:
+#     enabled: true
+#     password: "your_secure_password"
+#   architecture: standalone
+#   master:
+#     count: 1
+#     persistence:
+#       enabled: true
+#       size: 1Gi
+#   replica:
+#     replicaCount: 0
+#     persistence:
+#       enabled: true
+#       size: 1Gi
+# global:
+#   imageRegistry:
 
 # Application configuration
 image:
@@ -42,6 +42,9 @@ config:
   REDIS_HOST: "redis"
   REDIS_PORT: "6379"
   REDIS_DB: "0"
+
+secret:
+  REDIS_PASSWORD: "your_secure_password"
 
 ingress:
   enabled: true
