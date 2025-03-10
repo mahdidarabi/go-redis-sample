@@ -1,6 +1,6 @@
-# Go + Redis + gin Sample Project
+# Go + Redis + Gin Sample Project
 
-A sample API demonstrating integration of Go, Gin, and Redis for user profile management.
+A sample API demonstrating the integration of Go, Gin, and Redis for user profile management.
 
 ## Installation and Make Commands
 
@@ -20,11 +20,12 @@ A sample API demonstrating integration of Go, Gin, and Redis for user profile ma
 3. Available make commands:
 
    ```bash
-   make run       # Run the application locally
-   make build     # Build the application
-   make start     # Build and start the application
-   make clean     # Clean build artifacts
-   make swag-init # Initialize/update Swagger documentation
+   make run           # Run the application locally
+   make build         # Build the application
+   make start         # Build and start the application
+   make clean         # Clean build artifacts
+   make swag-init     # Initialize/update Swagger documentation
+   make docker-compose # Build and start the application with Docker Compose
    ```
 
 ## Sample Usage
@@ -37,7 +38,7 @@ The API provides CRUD operations for user profiles. You can use the `api.http` f
    make start
    ```
 
-2. Use the following sample requests (can be executed directly in VS Code with REST Client extension):
+2. Use the following sample requests (can be executed directly in VS Code or Cursor with the REST Client extension):
 
    ```http
    ### Create User Profile
@@ -84,7 +85,7 @@ The API provides CRUD operations for user profiles. You can use the `api.http` f
    docker compose up
    ```
 
-   or run using `make` command:
+   or run using this `make` command:
 
    ```bash
    make docker-compose
@@ -100,30 +101,9 @@ The API provides CRUD operations for user profiles. You can use the `api.http` f
    docker-compose down
    ```
 
-## Auto Build Pipeline
-
-The project includes a GitHub Actions workflow for automated Docker image building and pushing:
-
-1. On every push to the `main` branch, a new Docker image is built and pushed to GitHub Container Registry (GHCR)
-
-2. When creating a Git tag in the format `v*.*.*` (e.g., `v1.2.3`):
-
-   - A new Docker image is built
-   - The image is tagged with the version number
-   - The image is pushed to GHCR
-
-3. The workflow uses the following naming convention for images:
-
-   - `ghcr.io/<owner>/<repo>:<version>` for tagged releases
-   - `ghcr.io/<owner>/<repo>:latest` for main branch builds
-
-4. The pipeline includes:
-   - Automatic dependency caching
-   - Metadata extraction for proper tagging
-
 ## Running in K8s
 
-You can deploy the go-redis-sample project to K8s using K8s resources or helm chart using releases
+You can deploy the go-redis-sample project to K8s using K8s resources or Helm chart using releases.
 
 ### Deploy with K8s Resources
 
@@ -156,3 +136,24 @@ You can deploy a sample redis instance using `k8s/releases/redis` directory, by 
 ```bash
 helmfile apply -f k8s/releases/redis/helmfile.yaml
 ```
+
+## Auto Build Pipeline
+
+The project includes a GitHub Actions workflow for automated Docker image building and pushing:
+
+1. On every push to the `main` branch, a new Docker image is built and pushed to GitHub Container Registry (GHCR).
+
+2. When creating a Git tag in the format `v*.*.*` (e.g., `v1.2.3`):
+
+   - A new Docker image is built.
+   - The image is tagged with the version number.
+   - The image is pushed to GHCR.
+
+3. The workflow uses the following naming convention for images:
+
+   - `ghcr.io/<owner>/<repo>:<version>` for tagged releases.
+   - `ghcr.io/<owner>/<repo>:latest` for main branch builds.
+
+4. The pipeline includes:
+   - Automatic dependency caching.
+   - Metadata extraction for proper tagging.
