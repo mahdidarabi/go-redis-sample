@@ -8,5 +8,5 @@
 - [x] Add github action workflow
 - [x] Add docker-compose
 - [x] Write README
-- [ ] Add K8s resources
-- [ ] Add Helm Chart
+- [x] Add K8s resources
+- [x] Add Helm Chart
