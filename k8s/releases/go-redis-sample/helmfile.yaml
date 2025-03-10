@@ -1,0 +1,8 @@
+releases:
+  - name: go-redis-sample
+    namespace: go-redis-sample
+    chart: ../../charts/go-redis-sample
+    version: 0.0.1
+    installed: true
+    values:
+      - values.yml

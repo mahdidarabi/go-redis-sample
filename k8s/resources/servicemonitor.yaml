@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: go-redis-sample-monitor
+  namespace: go-redis-sample
+  labels:
+    app: go-redis-sample
+spec:
+  selector:
+    matchLabels:
+      app: go-redis-sample
+  endpoints:
+    - port: 3000
+      path: /metrics
+      interval: 30s

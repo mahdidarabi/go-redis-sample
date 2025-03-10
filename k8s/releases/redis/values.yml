@@ -1,0 +1,25 @@
+auth:
+  enabled: true
+  password: "your_secure_password"
+
+# `standalone` or `replication`
+architecture: standalone
+
+master:
+  # (experimental, requires additional configuration)
+  count: 1
+  # ref: https://redis.io/topics/config
+  configuration: ""
+  persistence:
+    enabled: true
+    size: 1Gi
+
+replica:
+  replicaCount: 0
+  # ref: https://redis.io/topics/config
+  configuration: ""
+  persistence:
+    enabled: true
+    size: 1Gi
+# global:
+#   imageRegistry:

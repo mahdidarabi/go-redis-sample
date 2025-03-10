@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-redis-sample
+  namespace: go-redis-sample
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-redis-sample
+  template:
+    metadata:
+      labels:
+        app: go-redis-sample
+    spec:
+      containers:
+        - name: go-redis-sample
+          image: ghcr.io/mahdidarabi/go-redis-sample:main
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: go-redis-sample-config
+            - secretRef:
+                name: redis-credentials
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          # TODO: Implement liveness and readiness probes
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: 3000
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /readyz
+          #     port: 3000
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5

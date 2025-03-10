@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  namespace: {{ .Release.Namespace }}
+data:
+  HTTP_PORT: {{ .Values.config.HTTP_PORT | quote }}
+  LOG_LEVEL: {{ .Values.config.LOG_LEVEL | quote }}
+  CACHE_EXPIRATION_TIME: {{ .Values.config.CACHE_EXPIRATION_TIME | quote }}
+  REDIS_HOST: {{ .Values.config.REDIS_HOST | quote }}
+  REDIS_PORT: {{ .Values.config.REDIS_PORT | quote }}
+  REDIS_DB: {{ .Values.config.REDIS_DB | quote }} 

@@ -1,0 +1,8 @@
+releases:
+  - name: redis
+    namespace: go-redis-sample
+    chart: bitnami/redis
+    version: 18.0.2
+    installed: true
+    values:
+      - values.yml

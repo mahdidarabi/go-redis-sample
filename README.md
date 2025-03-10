@@ -6,26 +6,26 @@ A sample API demonstrating integration of Go, Gin, and Redis for user profile ma
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/your-repo/go-redis-sample.git
-cd go-redis-sample
-```
+   ```bash
+   git clone https://github.com/your-repo/go-redis-sample.git
+   cd go-redis-sample
+   ```
 
 2. Install dependencies:
 
-```bash
-make get
-```
+   ```bash
+   make get
+   ```
 
 3. Available make commands:
 
-```bash
-make run       # Run the application locally
-make build     # Build the application
-make start     # Build and start the application
-make clean     # Clean build artifacts
-make swag-init # Initialize/update Swagger documentation
-```
+   ```bash
+   make run       # Run the application locally
+   make build     # Build the application
+   make start     # Build and start the application
+   make clean     # Clean build artifacts
+   make swag-init # Initialize/update Swagger documentation
+   ```
 
 ## Sample Usage
 
@@ -33,55 +33,55 @@ The API provides CRUD operations for user profiles. You can use the `api.http` f
 
 1. Start the application:
 
-```bash
-make start
-```
+   ```bash
+   make start
+   ```
 
 2. Use the following sample requests (can be executed directly in VS Code with REST Client extension):
 
-```http
-### Create User Profile
-POST http://localhost:3000/user-profile/12345
-Content-Type: application/json
+   ```http
+   ### Create User Profile
+   POST http://localhost:3000/user-profile/12345
+   Content-Type: application/json
 
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "+1234567890",
-  "address": "123 Main St",
-  "city": "Anytown",
-  "state": "CA",
-  "zip": "90210"
-}
+   {
+   "name": "John Doe",
+   "email": "john.doe@example.com",
+   "phone": "+1234567890",
+   "address": "123 Main St",
+   "city": "Anytown",
+   "state": "CA",
+   "zip": "90210"
+   }
 
-### Get User Profile
-GET http://localhost:3000/user-profile/12345
+   ### Get User Profile
+   GET http://localhost:3000/user-profile/12345
 
-### Update User Profile
-PUT http://localhost:3000/user-profile/12345
-Content-Type: application/json
+   ### Update User Profile
+   PUT http://localhost:3000/user-profile/12345
+   Content-Type: application/json
 
-{
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "+1234567890",
-  "address": "456 Elm St",
-  "city": "Othertown",
-  "state": "NY",
-  "zip": "10001"
-}
+   {
+   "name": "John Doe",
+   "email": "john.doe@example.com",
+   "phone": "+1234567890",
+   "address": "456 Elm St",
+   "city": "Othertown",
+   "state": "NY",
+   "zip": "10001"
+   }
 
-### Delete User Profile
-DELETE http://localhost:3000/user-profile/12345
-```
+   ### Delete User Profile
+   DELETE http://localhost:3000/user-profile/12345
+   ```
 
 ## Running with Docker Compose
 
 1. Start the application and Redis:
 
-```bash
-docker-compose up
-```
+   ```bash
+   docker-compose up
+   ```
 
 2. The application will be available at `http://localhost:3000`
 
@@ -89,9 +89,9 @@ docker-compose up
 
 4. To stop and remove containers:
 
-```bash
-docker-compose down
-```
+   ```bash
+   docker-compose down
+   ```
 
 ## Auto Build Pipeline
 
@@ -113,3 +113,39 @@ The project includes a GitHub Actions workflow for automated Docker image buildi
 4. The pipeline includes:
    - Automatic dependency caching
    - Metadata extraction for proper tagging
+
+## Running in K8s
+
+You can deploy the go-redis-sample project to K8s using K8s resources or helm chart using releases
+
+### Deploy with K8s Resources
+
+Just update the resources in `k8s/resources` directory and run:
+
+```bash
+kubectl apply -f k8s/resources
+```
+
+### Deploy with Helm chart
+
+A simple helm chart is implemented in `k8s/charts` directory that contains all needed resources. you can use this chart and deploy it to your K8s cluster using `helm` command or you can use `helmfile` command and use provided releases resources.
+
+- For deploying with helm command, just create a values file with considering default values in `k8s/charts/go-redis-sample/values.yaml` path and then run the below command:
+
+  ```bash
+  helm upgrade --install go-redis-sample k8s/charts/go-redis-sample --namespace <your-namespace> -f k8s/charts/go-redis-sample/values.yaml
+  ```
+
+- For deploying using helmfile command, update the values file in `k8s/releases/go-redis-sample/values.yml` path and run:
+
+  ```bash
+  helmfile apply -f k8s/releases/go-redis-sample/helmfile.yaml
+  ```
+
+### Redis release
+
+You can deploy a sample redis instance using `k8s/releases/redis` directory, by updating the values in that directory and run:
+
+```bash
+helmfile apply -f `k8s/releases/redis/helmfile.yaml`
+```

@@ -1,0 +1,65 @@
+# Redis configuration
+nameOverride: ""
+
+redis:
+  auth:
+    enabled: true
+    password: "your_secure_password"
+  architecture: standalone
+  master:
+    count: 1
+    persistence:
+      enabled: true
+      size: 1Gi
+  replica:
+    replicaCount: 0
+    persistence:
+      enabled: true
+      size: 1Gi
+  # global:
+  #   imageRegistry:
+
+# Application configuration
+image:
+  repository: ghcr.io/mahdidarabi/go-redis-sample
+  tag: main
+  pullPolicy: IfNotPresent
+
+replicaCount: 3
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+config:
+  HTTP_PORT: "3000"
+  LOG_LEVEL: "info"
+  CACHE_EXPIRATION_TIME: "120"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: go-redis-sample.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+service:
+  type: ClusterIP
+  port: 3000
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  path: /metrics
+
+networkPolicy:
+  enabled: true
